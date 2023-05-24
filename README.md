@@ -3,7 +3,7 @@
 This template is built with PHP Laravel and Vue.js for SPA web application. It's free to use, It made with laravel x10, vuejs x3, webmix, and primevue with [Sakai CLI](https://github.com/primefaces/sakai-vue) free template.
 
 <p align="center">
-  <img src="https://github.com/islamsamy214/admin-laravel-vue-bootstrap/blob/master/public/admin-screenshot.png?raw=true" alt="Screenshot of Admin Dashboard">
+  <img src="https://github.com/islamsamy214/admin-laravel-primevue/blob/master/public/admin-screenshot.png?raw=true" alt="Screenshot of Admin Dashboard">
 </p>
 
 ## Installation Steps
