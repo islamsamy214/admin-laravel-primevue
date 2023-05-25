@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import ProductService from '@/service/ProductService';
+import ProductService from '../../service/ProductService';
 
 const picklistValue = ref([
     [
@@ -150,5 +150,5 @@ const onSortChange = (event) => {
 </template>
 
 <style scoped lang="scss">
-@import '@/assets/demo/styles/badges.scss';
+@import '../../assets/demo/styles/badges.scss';
 </style>

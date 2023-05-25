@@ -1,5 +1,5 @@
 <script setup>
-import AppConfig from '@/layout/AppConfig.vue';
+import AppConfig from '../../../layouts/Admin/AppConfig.vue';
 </script>
 
 <template>

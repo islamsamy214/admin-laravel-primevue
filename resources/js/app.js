@@ -120,6 +120,8 @@ import PageHeader from "./components/user-interface/admin-ui/PageHeader.vue";
 import LoadingUi from "./components/user-interface/LoadingUi.vue";
 import SectionHeader from "./components/user-interface/admin-ui/SectionHeader.vue";
 
+// import "./assets/styles.scss"
+
 const app = createApp(App);
 // router setup
 app.use(router);
@@ -241,9 +243,6 @@ app.component("VirtualScroller", VirtualScroller);
 app.component("page-header", PageHeader);
 app.component("loading-ui", LoadingUi);
 app.component("section-header", SectionHeader);
-
-// styles-imports
-import "./assets/styles.js";
 
 // mount app
 app.mount("#app");

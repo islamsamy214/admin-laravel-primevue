@@ -1,6 +1,6 @@
 <script setup>
-import ProductService from '@/service/ProductService';
-import PhotoService from '@/service/PhotoService';
+import ProductService from '../../service/ProductService';
+import PhotoService from '../../service/PhotoService';
 import { ref, onMounted } from 'vue';
 
 const products = ref([]);
@@ -107,6 +107,6 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-@import '@/assets/demo/styles/badges.scss';
-@import '@/assets/demo/styles/items.scss';
+@import '../../assets/demo/styles/badges.scss';
+@import '../../assets/demo/styles/items.scss';
 </style>

@@ -1,7 +1,7 @@
 <script setup>
-import { useLayout } from '@/layout/composables/layout';
+import { useLayout } from '../../../layouts/Admin/composables/layout';
 import { ref, computed } from 'vue';
-import AppConfig from '@/layout/AppConfig.vue';
+import AppConfig from '../../../layouts/Admin/AppConfig.vue';
 
 const { layoutConfig } = useLayout();
 const email = ref('');

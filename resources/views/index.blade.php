@@ -11,15 +11,17 @@
     <title>{{ config('app.name', 'LaraVueTemplate') }}</title>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
+    {{-- <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"> --}}
+    <link href="{{asset('assets/primeicons/primeicons.css')}}" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link id="theme-css" rel="stylesheet" type="text/css"
+        href="{{ asset('assets/themes/lara-light-indigo/theme.css') }}">
 </head>
 
 <body>
     <div id="app"></div>
-    <script src="{{ mix('js/app.js') }}"></script>
+    <script type="module" src="{{ mix('js/app.js') }}"></script>
 </body>
 
 </html>

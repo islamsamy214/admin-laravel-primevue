@@ -1,7 +1,7 @@
 <script setup>
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
-import CustomerService from '@/service/CustomerService';
-import ProductService from '@/service/ProductService';
+import CustomerService from '../../service/CustomerService';
+import ProductService from '../../service/ProductService';
 import { ref, onBeforeMount } from 'vue';
 
 const customer1 = ref(null);
@@ -370,7 +370,7 @@ const calculateCustomerTotal = (name) => {
 </template>
 
 <style scoped lang="scss">
-@import '@/assets/demo/styles/badges.scss';
+@import '../../assets/demo/styles/badges.scss';
 
 ::v-deep(.p-datatable-frozen-tbody) {
     font-weight: bold;
