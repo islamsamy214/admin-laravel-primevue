@@ -18,7 +18,7 @@ onBeforeUnmount(() => {
 });
 
 const logoUrl = computed(() => {
-    return `layout/images/${layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'}.svg`;
+    return `../${layoutConfig.darkTheme.value ? 'Logo' : 'Logo'}.svg`;
 });
 
 const onTopBarMenuButton = () => {
@@ -62,10 +62,10 @@ const isOutsideClicked = (event) => {
 
 <template>
     <div class="layout-topbar">
-        <!-- <router-link to="/" class="layout-topbar-logo">
+        <router-link :to="{name:'admin.dashboard'}" class="layout-topbar-logo">
             <img :src="logoUrl" alt="logo" />
             <span>Admin</span>
-        </router-link> -->
+        </router-link>
 
         <button class="p-link layout-menu-button layout-topbar-button" @click="onMenuToggle()">
             <i class="pi pi-bars"></i>
