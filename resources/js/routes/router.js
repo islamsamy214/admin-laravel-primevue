@@ -1,10 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import WebLayout from "../layouts/WebLayout.vue";
-import AdminLayout from "../layouts/AdminLayout.vue";
+import WebLayout from "../layouts/Web/WebLayout.vue";
 import AppLayout from "../layouts/Admin/AppLayout.vue";
-import LoginPage from "./../pages/admin/auth/LoginPage.vue";
-import NotFound from "./../components/user-interface/NotFound.vue";
 
 import web from "./web";
 import admin from "./admin";
@@ -28,39 +25,30 @@ const router = createRouter({
             // redirect: { name: "admin.dashboard" }
             redirect: { name: "admin.dashboard" },
         },
-        // // admin auth
-        // {
-        //     name: "admin.login",
-        //     path: "/admin/login",
-        //     component: LoginPage,
-        // },
+        // auth
+        {
+            path: "/admin/login",
+            name: "admin.login",
+            component: () => import("../pages/admin/auth/Login.vue"),
+        },
+        // access denied
+        {
+            path: "/access-denied",
+            name: "access-denied",
+            component: () => import("../pages/admin/auth/Access.vue"),
+        },
+        // error
+        {
+            path: "/error",
+            name: "error",
+            component: () => import("../pages/admin/auth/Error.vue"),
+        },
         //not founded pages
         {
             name: "notfound",
             path: "/:notfound(.*)",
             component: () => import("../pages/admin/NotFound.vue"),
-        },
-        ////////////////////////////////// static dashboard routes ////////////////////////////
-        {
-            path: "/landing",
-            name: "landing",
-            component: () => import("../pages/admin/Landing.vue"),
-        },
-        {
-            path: "/auth/login",
-            name: "login",
-            component: () => import("../pages/admin/auth-sakai/Login.vue"),
-        },
-        {
-            path: "/auth/access",
-            name: "accessDenied",
-            component: () => import("../pages/admin/auth-sakai/Access.vue"),
-        },
-        {
-            path: "/auth/error",
-            name: "error",
-            component: () => import("../pages/admin/auth-sakai/Error.vue"),
-        },
+        },        
     ],
 });
 

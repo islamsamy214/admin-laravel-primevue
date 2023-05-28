@@ -1,20 +1,10 @@
 <template>
-    <loading-ui v-if="pageLoading"></loading-ui>
-    <div v-else>
-        <page-header>{{ $t("dashboard") }}</page-header>
+    <div className="card">
+        <h5>Empty Page</h5>
+        <p>Use this page to start from scratch and place your custom content.</p>
     </div>
 </template>
 
 <script>
-export default {
-    data() {
-        return {
-            pageLoading: true,
-        };
-    }, //end of data
-
-    mounted() {
-        this.pageLoading = false;
-    }, //end of created
-};
+export default {};
 </script>

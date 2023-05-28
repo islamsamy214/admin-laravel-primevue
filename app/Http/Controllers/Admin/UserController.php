@@ -20,36 +20,8 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        if ($request->search) {
-            $users = $this->getSearch($request);
-        } else {
-            $users = $this->getUsers();
-        }
-        return $users;
+        return ['users' => User::where('email', '!=', 'super_admin@app.com')->latest()->get()];
     } //end of index
-
-
-    public function getUsers()
-    {
-        $users = User::where('email', '!=', 'super_admin@app.com')->latest()->paginate($this->paginate_users);
-        return $users;
-    } //end of getUsers
-
-
-    public function getSearch($request)
-    {
-        $users = User::where('email', '!=', 'super_admin@app.com')
-            ->where('name', 'like', '%' . $request->search . '%')
-            ->orWhere('email', 'like', '%' . $request->search . '%')
-            ->latest()->paginate($this->paginate_users)->toArray();
-
-        // pop super_admin@app.com from the collercion
-        $users['data'] = array_filter($users['data'], function ($user) {
-            return $user['email'] != 'super_admin@app.com';
-        });
-
-        return $users;
-    } //end of getSearch
 
     public function store(StoreUserRequest $request)
     {

@@ -1,5 +1,6 @@
 const mix = require("laravel-mix");
-const tailwindcss = require("tailwindcss"); /* Add this line at the top */
+const tailwindcss = require("tailwindcss");
+const webpack = require("webpack");
 const path = require("path");
 /*
  |--------------------------------------------------------------------------
@@ -21,5 +22,14 @@ mix.js("resources/js/app.js", "public/js")
         postCss: [tailwindcss("./tailwind.config.js")],
     })
     .vue({ version: 3 })
+    .webpackConfig({
+        plugins: [
+            new webpack.DefinePlugin({
+                __VUE_I18N_FULL_INSTALL__: false,
+                __VUE_I18N_LEGACY_API__: false,
+                __VUE_I18N_PROD_DEVTOOLS__: false,
+            }),
+        ],
+    })
     .disableNotifications()
     .version();

@@ -1,3 +1,9 @@
 <template>
-    <router-view style="min-height: 100vh"></router-view>
+    <router-view></router-view>
 </template>
+
+<style scoped>
+router-view{
+    min-height: 100vh;
+}
+</style>

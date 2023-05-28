@@ -15,7 +15,6 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // $faker = Factory::create();
-
         User::factory(30)->create();
         User::create([
             'name' => 'super admin',
