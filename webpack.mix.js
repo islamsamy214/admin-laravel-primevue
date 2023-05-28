@@ -1,5 +1,6 @@
 const mix = require("laravel-mix");
-const path = require('path')
+const tailwindcss = require("tailwindcss"); /* Add this line at the top */
+const path = require("path");
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -16,5 +17,9 @@ mix.js("resources/js/app.js", "public/js")
     })
     .sourceMaps()
     .sass("resources/sass/app.scss", "public/css")
+    .options({
+        postCss: [tailwindcss("./tailwind.config.js")],
+    })
     .vue({ version: 3 })
-    .disableNotifications();
+    .disableNotifications()
+    .version();

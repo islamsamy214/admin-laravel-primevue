@@ -4,9 +4,6 @@
 // Variables
 @import "variables";
 
-// Bootstrap
-@import "bootstrap/scss/bootstrap";
-
 // noty
 @import "~noty/src/noty.scss";
 @import "~noty/src/themes/mint.scss";
@@ -29,3 +26,8 @@ $breakpoints: (
 // Demos
 @import "./demo/styles/flags/flags.css";
 @import "./demo/styles/badges.scss";
+
+// tailwind
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

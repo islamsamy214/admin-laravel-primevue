@@ -49,7 +49,7 @@ const applyScale = () => {
 </script>
 
 <template>
-    <button class="layout-config-button p-link" type="button" @click="onConfigButtonClick()">
+    <button class="layout-config-button p-link pl-2" type="button" @click="onConfigButtonClick()">
         <i class="pi pi-cog"></i>
     </button>
 
