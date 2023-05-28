@@ -142,7 +142,7 @@ const model = ref([
             {
                 label: "PrimeIcons",
                 icon: "pi pi-fw pi-prime",
-                to: "https://www.primefaces.org/diamond/icons.xhtml",
+                url: "https://www.primefaces.org/diamond/icons.xhtml",
                 target: "_blank",
             },
             {
@@ -171,19 +171,19 @@ const model = ref([
                     {
                         label: "Login",
                         icon: "pi pi-fw pi-sign-in",
-                        to: "/auth/login",
+                        to: "/admin/login",
                         name: "login",
                     },
                     {
                         label: "Error",
                         icon: "pi pi-fw pi-times-circle",
-                        to: "/auth/error",
+                        to: "/error",
                         name: "error",
                     },
                     {
                         label: "Access Denied",
                         icon: "pi pi-fw pi-lock",
-                        to: "/auth/access",
+                        to: "/access",
                         name: "accessDenied",
                     },
                 ],
@@ -199,11 +199,6 @@ const model = ref([
                 icon: "pi pi-fw pi-calendar",
                 to: "/admin/pages/timeline",
                 name: "admin.timeline",
-            },
-            {
-                label: "Not Found",
-                icon: "pi pi-fw pi-exclamation-circle",
-                name: "notfound",
             },
             {
                 label: "Empty",
