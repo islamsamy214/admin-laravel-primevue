@@ -37,7 +37,7 @@ class UserController extends Controller
         // send test mail to user
         // Mail::to($user)->send(new TestMail($user));
 
-        return response()->json(__('User Created Successfully'));
+        return response()->json(['message' => __('User Created Successfully')]);
     } //end of store
 
 
@@ -61,12 +61,26 @@ class UserController extends Controller
             $form_data['image'] = $user->image;
         }
         $user->update($form_data);
-        return response()->json(__('User Updated Successfully'));
+
+        return response()->json(['message' => __('User Updated Successfully')]);
     } //end of update
 
     public function destroy(User $user)
     {
         $user->image != 'assets/images/user.png' ? $this->deleteImg($user->image) : '';
         $user->delete();
+
+        return response()->json(['message' => __('User Deleted Successfully')], 200);
     } //end of destroy
+
+    public function destroyAll(Request $request)
+    {
+        $users = User::whereIn('id', $request->users)->get();
+        foreach ($users as $user) {
+            $user->image != 'assets/images/user.png' ? $this->deleteImg($user->image) : '';
+            $user->delete();
+        }
+
+        return response()->json(['message' => __('Users Deleted Successfully')]);
+    } //end of destroyAll
 }

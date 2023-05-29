@@ -12,6 +12,7 @@ Route::group(['middleware' => ['admin:sanctum'], 'as' => 'admin.'], function () 
     Route::get('dashboard', [DashboardController::class, 'index']);
     //users
     Route::resource('users', UserController::class)->except(['show', 'create']);
+    Route::delete('users/delete/all', [UserController::class, 'destroyAll']);
     //seos
     Route::resource('seos', SeoController::class)->only(['index', 'update']);
 });

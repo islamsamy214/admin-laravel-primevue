@@ -1,82 +1,140 @@
 <template>
-    <div>
-        <loading-ui v-if="isLoading"></loading-ui>
-        <edit-form
-            v-else
-            :oldName="oldName"
-            :oldEmail="oldEmail"
-            :oldRole="oldRole"
-            :errors="errors"
-            :isLoading="isLoading"
-            @submitUser="submitUser"
-        ></edit-form>
-    </div>
+    <Dialog
+        :visible="userDialog"
+        :style="{ width: '450px' }"
+        header="User Details"
+        :modal="true"
+        class="p-fluid"
+    >
+        <img
+            :src="user.image_path"
+            :alt="user.image"
+            v-if="user.image"
+            width="150"
+            class="mt-0 mx-auto mb-5 block shadow-2"
+        />
+        <div class="field">
+            <label for="name">Name</label>
+            <InputText
+                id="name"
+                v-model.trim="user.name"
+                required="true"
+                autofocus
+                type="text"
+                :class="{ 'p-invalid': submitted && !user.name }"
+            />
+            <small class="p-invalid" v-if="submitted && !user.name"
+                >Name is required.</small
+            >
+        </div>
+        <div class="field">
+            <label for="email">Email</label>
+            <InputText
+                id="email"
+                v-model.trim="user.email"
+                required="true"
+                type="email"
+                :class="{ 'p-invalid': submitted && !user.email }"
+            />
+            <small class="p-invalid" v-if="submitted && !user.email"
+                >Email is required.</small
+            >
+        </div>
+
+        <div class="field">
+            <label class="mb-3">Role</label>
+            <div class="formgrid grid">
+                <div class="field-radiobutton col-6">
+                    <RadioButton
+                        id="role1"
+                        name="role"
+                        value="admin"
+                        v-model="user.role"
+                    />
+                    <label for="role1">Admin</label>
+                </div>
+                <div class="field-radiobutton col-6">
+                    <RadioButton
+                        id="role2"
+                        name="role"
+                        value="user"
+                        v-model="user.role"
+                    />
+                    <label for="role2">User</label>
+                </div>
+            </div>
+        </div>
+
+        <template #footer>
+            <Button
+                label="Cancel"
+                icon="pi pi-times"
+                class="p-button-text"
+                @click="hideDialog"
+            />
+            <Button
+                label="Save"
+                icon="pi pi-check"
+                class="p-button-text"
+                @click="updateUser"
+            />
+        </template>
+    </Dialog>
 </template>
+
 <script>
-import EditForm from "./EditForm.vue";
-
 export default {
-    components: { EditForm },
-
+    props: {
+        userDialog: Boolean,
+        user: Object,
+    },
     data() {
         return {
-            oldName: null,
-            oldEmail: null,
-            oldRole: null,
-            errors: null,
-            isLoading: false,
+            submitted: false,
         };
-    }, //end of data
-
+    },
     methods: {
-        fill(id) {
-            this.isLoading = true;
-            axios
-                .get(`/api/admin/users/${id}/edit`)
-                .then((response) => {
-                    this.oldName = response.data.user.name;
-                    this.oldEmail = response.data.user.email;
-                    this.oldRole = response.data.user.role;
-                })
-                .then(() => {
-                    this.isLoading = false;
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        }, //end of fill data
-
-        submitUser(formData) {
-            this.isLoading = true;
-            axios
-                .post(`/api/admin/users/${this.$route.query.id}`, formData)
-                .then((response) => {
-                    if (response.status == 200) {
-                        new Noty({
-                            type: "success",
-                            layout: "topRight",
-                            timeout: "2000",
-                            text: response.data,
-                        }).show();
-                        this.$router.push({
-                            name: "admin.users",
+        updateUser() {
+            this.submitted = true;
+            if (this.user.name && this.user.name.trim() && this.user.email) {
+                this.users[this.findIndexById(this.user.id)] = this.user;
+                this.loading = true;
+                const formData = new FormData();
+                formData.append("name", this.user.name);
+                formData.append("email", this.user.email);
+                formData.append("role", this.user.role);
+                formData.append("_method", "PUT");
+                axios
+                    .post("/api/admin/users/" + this.user.id, formData)
+                    .then((response) => {
+                        this.toast.add({
+                            severity: "success",
+                            summary: "Successful",
+                            detail: response.data.message,
+                            life: 3000,
                         });
-                    }
-                })
-                .catch((errors) => {
-                    this.errors = errors.response.data.errors;
-                })
-                .then(() => {
-                    this.isLoading = false;
-                });
-        }, //end of submtting the form
-    }, //end of mehtods
-
-    created() {
-        if (this.$route.query.id == undefined) {
-            this.$router.push({ name: "admin.users" });
-        }
-        this.fill(this.$route.query.id);
-    }, //end of created
-};
+                        this.userDialog = false;
+                        this.user = {};
+                    })
+                    .catch((errors) => {
+                        if (errors.response) {
+                            this.toast.add({
+                                severity: "error",
+                                summary: "Error",
+                                detail: errors.response.data.message,
+                                life: 15000,
+                            });
+                        }
+                    })
+                    .then(() => {
+                        this.loading = false;
+                    });
+            }
+        }, //end of updateUser
+        editUser(editUser) {
+            this.user = { ...editUser };
+            this.userDialog = true;
+        }, //end of editUser
+    }, //end of methods
+}
 </script>
