@@ -19,7 +19,7 @@ const model = ref([
         label: "Collections",
         items: [
             {
-                label: "User",
+                label: "Users",
                 icon: "pi pi-users",
                 to: "/admin/users",
                 name: "admin.users",

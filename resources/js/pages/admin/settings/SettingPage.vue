@@ -1,246 +1,209 @@
 <template>
-    <div>
-        <page-header>{{ $t("settings") }}</page-header>
-        <loading-ui v-if="pageLoading"></loading-ui>
-        <div class="row justify-content-left m-2" v-else>
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">{{ $t("edit") }} Seo's</div>
-                    <div class="card-body">
-                        <form
-                            @submit.prevent="fillForm"
-                            enctype="multipart/form-data"
-                        >
-                            <div class="form-group row">
-                                <label
-                                    for="title"
-                                    class="col-md-2 col-form-label text-md-right"
-                                    >Title</label
-                                >
-                                <div class="col">
-                                    <input
-                                        id="title"
-                                        type="text"
-                                        class="form-control"
-                                        name="title"
-                                        required
-                                        autocomplete="title"
-                                        autofocus
-                                        v-model="title.en"
-                                    />
-                                </div>
-                                <div class="col">
-                                    <input
-                                        id="title"
-                                        type="text"
-                                        class="form-control"
-                                        name="title"
-                                        required
-                                        autocomplete="title"
-                                        autofocus
-                                        v-model="title.ar"
-                                    />
-                                </div>
-                            </div>
+    <Toast />
+    <div class="col-12">
+        <div class="card">
+            <h5 class="mb-5">Seo's</h5>
+            <Loading v-if="loading" />
+            <div v-else class="p-fluid formgrid grid">
+                <div class="field col-12 md:col-6">
+                    <span class="p-float-label">
+                        <InputText
+                            type="text"
+                            id="title_en"
+                            v-model="title.en"
+                            :placeholder="$t('english')"
+                        />
+                        <label for="title_en">{{ $t("title") }}</label>
+                    </span>
+                </div>
 
-                            <div class="form-group row">
-                                <label
-                                    for="description"
-                                    class="col-md-2 col-form-label text-md-right"
-                                    >Description</label
-                                >
-                                <div class="col-5">
-                                    <Editor
-                                        v-model="description.en"
-                                        editorStyle="height: 320px"
-                                    />
-                                </div>
-                                <div class="col-5">
-                                    <Editor
-                                        v-model="description.ar"
-                                        editorStyle="height: 320px"
-                                    />
-                                </div>
-                            </div>
+                <div class="field col-12 md:col-6">
+                    <span class="p-float-label">
+                        <InputText
+                            type="text"
+                            id="title_ar"
+                            v-model="title.ar"
+                            :placeholder="$t('arabic')"
+                        />
+                        <label for="title_ar">{{ $t("title") }}</label>
+                    </span>
+                </div>
 
-                            <div class="form-group row">
-                                <label
-                                    for="keywords"
-                                    class="col-md-2 col-form-label text-md-right"
-                                    >Keywords</label
-                                >
+                <div class="field col-12 md:col-6">
+                    <span class="">
+                        <label for="description_en">{{
+                            $t("description")
+                        }}</label>
+                    </span>
+                    <span class="p-float-label">
+                        <Editor
+                            id="description_en"
+                            v-model="description.en"
+                            editorStyle="height: 320px"
+                            :modules="$store.getters.getEditorOptions.modules"
+                            :placeholder="$t('english')"
+                        />
+                    </span>
+                </div>
 
-                                <div class="col">
-                                    <textarea
-                                        id="keywords"
-                                        type="text"
-                                        class="form-control"
-                                        name="keywords"
-                                        required
-                                        autocomplete="description"
-                                        v-model="keywords"
-                                    ></textarea>
-                                </div>
-                            </div>
+                <div class="field col-12 md:col-6">
+                    <span class="">
+                        <label for="description_ar">{{
+                            $t("description")
+                        }}</label>
+                    </span>
+                    <span class="p-float-label">
+                        <Editor
+                            id="description_ar"
+                            v-model="description.ar"
+                            editorStyle="height: 320px"
+                            :modules="$store.getters.getEditorOptions.modules"
+                            :placeholder="$t('arabic')"
+                        />
+                    </span>
+                </div>
 
-                            <div class="form-group row">
-                                <label
-                                    for="image"
-                                    class="col-md-2 col-form-label text-md-right"
-                                    >{{ $t("image") }}</label
-                                >
+                <div class="field col-12 mt-4">
+                    <span class="p-float-label">
+                        <Chips inputId="chips" v-model="keywords"></Chips>
+                        <label for="chips">Chips</label>
+                    </span>
+                </div>
 
-                                <div class="col">
-                                    <input
-                                        id="image"
-                                        type="file"
-                                        class="form-control"
-                                        name="image"
-                                        autocomplete="description"
-                                        @change="uploadImage"
-                                    />
-                                </div>
-                            </div>
-
-                            <!-- start of error section -->
-                            <div
-                                class="card w-75 mx-auto mb-3 alert alert-danger"
-                                v-if="errors"
-                            >
-                                <ul class="list-group list-group-flush">
-                                    <li
-                                        class="list-group-item"
-                                        v-if="errors.title"
-                                    >
-                                        <div
-                                            v-for="error in errors.title"
-                                            :key="error"
-                                        >
-                                            {{ error }}
-                                        </div>
-                                    </li>
-                                    <li
-                                        class="list-group-item"
-                                        v-if="errors.description"
-                                    >
-                                        <div
-                                            v-for="error in errors.description"
-                                            :key="error"
-                                        >
-                                            {{ error }}
-                                        </div>
-                                    </li>
-                                    <li
-                                        class="list-group-item"
-                                        v-if="errors.keywords"
-                                    >
-                                        <div
-                                            v-for="error in errors.keywords"
-                                            :key="error"
-                                        >
-                                            {{ error }}
-                                        </div>
-                                    </li>
-                                    <li
-                                        class="list-group-item"
-                                        v-if="errors.image"
-                                    >
-                                        <div
-                                            v-for="error in errors.image"
-                                            :key="error"
-                                        >
-                                            {{ error }}
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- end of error section -->
-
-                            <div class="form-group row mb-0 text-right">
-                                <div class="col-md-6 offset-md-4">
-                                    <button
-                                        type="submit"
-                                        class="btn btn-primary"
-                                    >
-                                        {{ $t("submit") }}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                <div class="field col-12 mt-4">
+                    <div class="flex justify-content-between">
+                        <div>
+                            <FileUpload
+                                mode="basic"
+                                accept="image/*"
+                                customUpload
+                                :maxFileSize="1000000"
+                                :chooseLabel="$t('chooseImage')"
+                                @change="uploadImage"
+                                ref="fileUploader"
+                                class="m-0"
+                            />
+                        </div>
+                        <div>
+                            <Button
+                                icon="pi pi-check"
+                                label="Submit"
+                                class="p-mt-2 m-0"
+                                @click.prevent="updateSeo"
+                                :disabled="loading"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
+
 <script>
+import { useToast } from "primevue/usetoast";
+
 export default {
     data() {
         return {
-            pageLoading: true,
-            title: null,
-            description: null,
-            keywords: null,
+            title: {
+                en: "",
+                ar: "",
+            },
+            description: {
+                en: "",
+                ar: "",
+            },
+            keywords: [],
             image: null,
-            errors: null,
+            loading: false,
         };
-    }, //end of data
+    }, // end of data
 
     methods: {
-        uploadImage(event) {
-            this.image = event.currentTarget.files[0];
-        }, //end of image upload
         fill() {
+            this.loading = true;
             axios
-                .get(`/api/admin/seos`)
+                .get("/api/admin/seos")
                 .then((response) => {
-                    this.title = response.data.seo.title;
-                    this.description = response.data.seo.description;
-                    this.keywords = response.data.seo.keywords;
-                })
-                .then(() => {
-                    this.pageLoading = false;
+                    this.title.en = response.data.seo.title.en;
+                    this.title.ar = response.data.seo.title.ar;
+                    this.description.en = response.data.seo.description.en;
+                    this.description.ar = response.data.seo.description.ar;
+                    this.keywords = response.data.seo.keywords.split(",");
                 })
                 .catch((error) => {
-                    console.log(error);
-                });
-        },
-
-        fillForm() {
-            let formData = new FormData();
-            formData.append("title", JSON.stringify(this.title));
-            formData.append("description", JSON.stringify(this.description));
-            formData.append("keywords", this.keywords);
-            formData.append("_method", "PUT");
-            if (this.image) {
-                formData.append("image", this.image);
-            }
-            this.submitClient(formData);
-        }, //end of filling form
-
-        submitClient(formData) {
-            axios
-                .post(`/api/admin/seos/1`, formData)
-                .then((response) => {
-                    if (response.status == 200) {
-                        new Noty({
-                            type: "success",
-                            layout: "topRight",
-                            timeout: "2000",
-                            text:
-                                this.$t("updated") + " " + this.$t("settings"),
-                        }).show();
-                        this.errors = null;
+                    if (error.response) {
+                        this.toast.add({
+                            severity: "error",
+                            summary: "Error",
+                            detail: error.response.data.message,
+                            life: 15000,
+                        });
                     }
                 })
-                .catch((errors) => {
-                    this.errors = errors.response.data.errors;
+                .then(() => {
+                    this.loading = false;
                 });
-        }, //end of submtting the form
-    }, //end of mehtods
+        }, // end of fill
+        formatKeywords() {
+            let stringedKeywords = "";
+            this.keywords.forEach((keyword) => {
+                stringedKeywords += keyword + ",";
+            });
+            stringedKeywords = stringedKeywords.slice(0, -1);
+            return stringedKeywords;
+        }, // end of formatKeywords
+
+        uploadImage() {
+            if (this.$refs.fileUploader.files[0]) return;
+            this.image = this.$refs.fileUploader.files[0];
+        }, // end of onUpload
+
+        updateSeo() {
+            this.loading = true;
+            const formData = new FormData();
+            formData.append("title", JSON.stringify(this.title));
+            formData.append("description", JSON.stringify(this.description));
+            formData.append("keywords", this.formatKeywords());
+            if (this.image) formData.append("image", this.image);
+            formData.append("_method", "PUT");
+            axios
+                .post("/api/admin/seos/1", formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
+                .then((response) => {
+                    this.toast.add({
+                        severity: "success",
+                        summary: "Success",
+                        detail: response.data.message,
+                        life: 3000,
+                    });
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        this.toast.add({
+                            severity: "error",
+                            summary: "Error",
+                            detail: error.response.data.message,
+                            life: 15000,
+                        });
+                    }
+                })
+                .then(() => {
+                    this.loading = false;
+                });
+        }, // end of updateSeo
+    }, // end of methods
+
+    beforeMount() {
+        this.toast = useToast();
+    }, // end of beforeMount
 
     mounted() {
         this.fill();
-    }, //end of created
+    }, // end of mounted
 };
 </script>

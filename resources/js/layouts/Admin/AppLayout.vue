@@ -113,4 +113,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.p-editor-toolbar {
+    display: none;
+}
+.ql-toolbar {
+    border-top-left-radius: 0.375rem; /* 6px */
+    border-top-right-radius: 0.375rem; /* 6px */
+    opacity: .7;
+}
+</style>

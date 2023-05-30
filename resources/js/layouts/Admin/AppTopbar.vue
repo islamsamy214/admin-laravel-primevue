@@ -98,13 +98,14 @@ const isOutsideClicked = (event) => {
                 <i class="pi pi-user"></i>
                 <span>Profile</span>
             </button>
-            <button
+            <router-link
+                :to="{ name: 'admin.settings' }"
                 @click="onSettingsClick()"
-                class="p-link layout-topbar-button"
+                class="p-link layout-topbar-button text-decoration-none"
             >
                 <i class="pi pi-cog"></i>
                 <span>Settings</span>
-            </button>
+            </router-link>
         </div>
     </div>
 </template>
