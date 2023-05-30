@@ -1,9 +1,9 @@
 <template>
+    <Toast />
     <Loading v-if="loading" />
     <div class="grid" v-else>
         <div class="col-12">
             <div class="card">
-                <Toast />
                 <Toolbar class="mb-4">
                     <template v-slot:start>
                         <div class="my-2">
@@ -35,11 +35,20 @@
                     </template>
                 </Toolbar>
 
-                <user-list :currentUsers="currentUsers"></user-list>
+                <user-list
+                    ref="listUserComponent"
+                    :currentUsers="currentUsers"
+                    @selectUsers="selectUsers"
+                    @editUser="editUser"
+                    @deleteUser="fill"
+                ></user-list>
 
-                <edit-user :user="user" :userDialog="userDialog"></edit-user>
+                <edit-user ref="editUserComponent"></edit-user>
 
-                <create-user ref="createUserComponent"></create-user>
+                <create-user
+                    ref="createUserComponent"
+                    @userCreated="fill"
+                ></create-user>
 
                 <Dialog
                     v-model:visible="deleteUsersDialog"
@@ -88,19 +97,13 @@ export default {
     data() {
         return {
             currentUsers: [],
-            user: {},
-            userDialog: false,
             deleteUsersDialog: false,
             selectedUsers: null,
             loading: false,
             isEmpty: false,
             errors: null,
         };
-    },
-
-    beforeMount() {
-        this.toast = useToast();
-    },
+    }, //end of data
 
     methods: {
         createNewUser() {
@@ -117,10 +120,10 @@ export default {
                     },
                 })
                 .then((response) => {
-                    this.users = this.users.filter((val) => {
-                        return !this.selectedUsers.includes(val);
-                    });
-                    this.deleteUsersDialog = false;
+                    // this.currentUsers = this.currentUsers.filter(
+                    //     (val) => !this.selectedUsers.includes(val)
+                    // );
+                    this.fill();
                     this.selectedUsers = null;
                     this.toast.add({
                         severity: "success",
@@ -150,7 +153,7 @@ export default {
         }, //end of confirmDeleteSelected
 
         exportCSV() {
-            this.dt.exportCSV();
+            this.$refs.listUserComponent.exportCSV();
         }, //end of exportCSV
 
         fill() {
@@ -167,9 +170,22 @@ export default {
                     this.loading = false;
                 }); //end of axios request
         }, //end of fill function
-    },
+        
+        selectUsers(selectedUsers) {
+            this.selectedUsers = selectedUsers;
+        }, //end of selectUsers
+
+        editUser(user) {
+            this.$refs.editUserComponent.openDialog(user);
+        }, //end of editUser
+    }, //end of methods
+
+    beforeMount() {
+        this.toast = useToast();
+    }, //end of beforeMount
+
     created() {
         this.fill();
-    },
+    }, //end of created
 };
 </script>

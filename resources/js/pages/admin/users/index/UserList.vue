@@ -41,6 +41,7 @@
                 {{ slotProps.data.name }}
             </template>
         </Column>
+
         <Column header="Image" headerStyle="width:14%; min-width:10rem;">
             <template #body="slotProps">
                 <span class="p-column-title">Image</span>
@@ -52,6 +53,7 @@
                 />
             </template>
         </Column>
+
         <Column
             field="email"
             header="Email"
@@ -63,6 +65,7 @@
                 {{ slotProps.data.email }}
             </template>
         </Column>
+
         <Column
             field="role"
             header="Role"
@@ -74,6 +77,7 @@
                 {{ slotProps.data.role }}
             </template>
         </Column>
+
         <Column
             field="action"
             headerStyle="min-width:10rem;"
@@ -128,6 +132,7 @@
 
 <script>
 import { FilterMatchMode } from "primevue/api";
+import { useToast } from "primevue/usetoast";
 
 export default {
     props: {
@@ -136,6 +141,9 @@ export default {
             required: true,
         },
     }, //end of props
+
+    emits: ["selectUsers", "deleteUser", "editUser"],
+
     data() {
         return {
             toast: null,
@@ -145,31 +153,29 @@ export default {
             user: {},
             users: this.currentUsers,
             selectedUsers: null,
-            dt: null,
             filters: {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },
             },
         };
     }, //end of data
+
+    watch: {
+        selectedUsers(val) {
+            this.$emit("selectUsers", val);
+        },
+    }, //end of watch
+
     beforeMount() {
         this.initFilters();
+        this.toast = useToast();
     }, //end of beforeMount
-    methods: {    
-           
-        findIndexById(id) {
-            let index = -1;
-            for (let i = 0; i < this.users.length; i++) {
-                if (this.users[i].id === id) {
-                    index = i;
-                    break;
-                }
-            }
-            return index;
-        }, //end of findIndexById
-        confirmDeleteUser(editUser) {
-            this.user = editUser;
+
+    methods: {
+        confirmDeleteUser(user) {
+            this.user = user;
             this.deleteUserDialog = true;
         }, //end of confirmDeleteUser
+
         deleteUser() {
             this.loading = true;
             axios
@@ -181,9 +187,7 @@ export default {
                         detail: response.data.message,
                         life: 3000,
                     });
-                    this.users = this.users.filter(
-                        (val) => val.id !== this.user.id
-                    );
+                    this.$emit("deleteUser");
                     this.deleteUserDialog = false;
                     this.user = {};
                 })
@@ -202,11 +206,20 @@ export default {
                     this.deleteUserDialog = false;
                 });
         }, //end of deleteUser
+
         initFilters() {
             this.filters = {
                 global: { value: null, matchMode: FilterMatchMode.CONTAINS },
             };
         }, //end of initFilters
+
+        exportCSV() {
+            this.$refs.dt.exportCSV();
+        }, //end of exportCSV
+
+        editUser(user) {
+            this.$emit("editUser", user);
+        }, //end of editUser
     }, //end of methods
 };
 </script>

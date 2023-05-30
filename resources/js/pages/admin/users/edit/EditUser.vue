@@ -1,6 +1,6 @@
 <template>
     <Dialog
-        :visible="userDialog"
+        v-model:visible="userDialog"
         :style="{ width: '450px' }"
         header="User Details"
         :modal="true"
@@ -13,6 +13,7 @@
             width="150"
             class="mt-0 mx-auto mb-5 block shadow-2"
         />
+
         <div class="field">
             <label for="name">Name</label>
             <InputText
@@ -27,6 +28,7 @@
                 >Name is required.</small
             >
         </div>
+
         <div class="field">
             <label for="email">Email</label>
             <InputText
@@ -83,21 +85,21 @@
 </template>
 
 <script>
+import { useToast } from "primevue/usetoast";
+
 export default {
-    props: {
-        userDialog: Boolean,
-        user: Object,
-    },
     data() {
         return {
+            user: {},
+            userDialog: false,
             submitted: false,
         };
     },
     methods: {
         updateUser() {
             this.submitted = true;
+
             if (this.user.name && this.user.name.trim() && this.user.email) {
-                this.users[this.findIndexById(this.user.id)] = this.user;
                 this.loading = true;
                 const formData = new FormData();
                 formData.append("name", this.user.name);
@@ -113,8 +115,7 @@ export default {
                             detail: response.data.message,
                             life: 3000,
                         });
-                        this.userDialog = false;
-                        this.user = {};
+                        this.hideDialog();
                     })
                     .catch((errors) => {
                         if (errors.response) {
@@ -131,10 +132,26 @@ export default {
                     });
             }
         }, //end of updateUser
+
         editUser(editUser) {
             this.user = { ...editUser };
             this.userDialog = true;
         }, //end of editUser
+
+        openDialog(user) {
+            this.user = user;
+            this.userDialog = true;
+        }, //end of openDialog
+
+        hideDialog() {
+            this.user = {};
+            this.userDialog = false;
+            this.submitted = false;
+        }, //end of hideDialog
     }, //end of methods
-}
+
+    beforeMount() {
+        this.toast = useToast();
+    }, //end of beforeMount
+};
 </script>

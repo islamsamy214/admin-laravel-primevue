@@ -137,8 +137,11 @@
     </Dialog>
 </template>
 <script>
+import { useToast } from "primevue/usetoast";
 
 export default {
+    emits: ["userCreated"],
+
     data() {
         return {
             newUserDialog: false,
@@ -154,6 +157,10 @@ export default {
             loading: false,
         };
     }, //end of data
+
+    beforeMount() {
+        this.toast = useToast();
+    },
 
     methods: {
         uploadImage(event) {
@@ -181,13 +188,13 @@ export default {
                         },
                     })
                     .then((response) => {
-                        this.users.unshift(this.user);
-                        // this.toast.add({
-                        //     severity: "success",
-                        //     summary: "Successful",
-                        //     detail: response.data.message,
-                        //     life: 3000,
-                        // });
+                        this.toast.add({
+                            severity: "success",
+                            summary: "Successful",
+                            detail: response.data.message,
+                            life: 3000,
+                        });
+                        this.$emit("userCreated");
                         this.hideDialog();
                     })
                     .catch((errors) => {
@@ -211,7 +218,6 @@ export default {
         }, //end of openDialog
 
         hideDialog() {
-            console.log("hideDialog");
             this.user = {};
             this.submitted = false;
             this.newUserDialog = false;
