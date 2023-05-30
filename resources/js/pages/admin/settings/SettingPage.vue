@@ -156,7 +156,7 @@ export default {
         }, // end of formatKeywords
 
         uploadImage() {
-            if (this.$refs.fileUploader.files[0]) return;
+            if (!this.$refs.fileUploader.files[0]) return;
             this.image = this.$refs.fileUploader.files[0];
         }, // end of onUpload
 

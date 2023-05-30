@@ -118,8 +118,10 @@ export default {
     display: none;
 }
 .ql-toolbar {
+    position: relative;
     border-top-left-radius: 0.375rem; /* 6px */
     border-top-right-radius: 0.375rem; /* 6px */
     opacity: .7;
+    z-index: 1;
 }
 </style>
