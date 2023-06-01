@@ -4,17 +4,32 @@
     <div class="grid" v-else>
         <div class="col-12">
             <div class="card">
-                <Toolbar class="mb-4">
+                <Toolbar
+                    class="mb-4"
+                    :class="{
+                        'flex flex-row-reverse': $store.getters['isRtl'],
+                    }"
+                >
                     <template v-slot:start>
-                        <div class="my-2">
+                        <div
+                            class="my-2"
+                            :class="{
+                                'flex flex-row-reverse':
+                                    $store.getters['isRtl'],
+                            }"
+                        >
                             <Button
-                                label="New"
+                                :label="$t('new')"
                                 icon="pi pi-plus"
-                                class="p-button-success mr-2"
+                                class="p-button-success"
+                                :class="{
+                                    'mr-2': !$store.getters['isRtl'],
+                                    'ml-2': $store.getters['isRtl'],
+                                }"
                                 @click="createNewUser"
                             />
                             <Button
-                                label="Delete"
+                                :label="$t('delete')"
                                 icon="pi pi-trash"
                                 class="p-button-danger"
                                 @click="confirmDeleteSelected"
@@ -27,7 +42,7 @@
 
                     <template v-slot:end>
                         <Button
-                            label="Export"
+                            :label="$t('export')"
                             icon="pi pi-upload"
                             class="p-button-help"
                             @click="exportCSV($event)"
@@ -170,7 +185,7 @@ export default {
                     this.loading = false;
                 }); //end of axios request
         }, //end of fill function
-        
+
         selectUsers(selectedUsers) {
             this.selectedUsers = selectedUsers;
         }, //end of selectUsers

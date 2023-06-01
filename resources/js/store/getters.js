@@ -5,4 +5,7 @@ export default {
     getEditorOptions(state) {
         return state.editorOptions;
     },
+    isRtl(state) {
+        return state.rtl;
+    },
 };

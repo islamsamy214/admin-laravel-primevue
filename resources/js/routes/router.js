@@ -47,7 +47,7 @@ const router = createRouter({
         {
             name: "notfound",
             path: "/:notfound(.*)",
-            component: () => import("../pages/admin/NotFound.vue"),
+            component: () => import("../pages/NotFound.vue"),
         },        
     ],
 });

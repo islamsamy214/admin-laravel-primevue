@@ -16,25 +16,32 @@
         <template #header>
             <div
                 class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
+                :class="{ 'md:flex-row-reverse': $store.getters['isRtl'] }"
             >
-                <h5 class="m-0">Manage Users</h5>
+                <h5 class="m-0">{{ $t("manage") + " " + $t("users") }}</h5>
                 <span class="block mt-2 md:mt-0 p-input-icon-left">
                     <i class="pi pi-search" />
                     <InputText
                         v-model="filters['global'].value"
-                        placeholder="Search..."
+                        :placeholder="$t('search')"
+                        :class="{ 'text-right': $store.getters['isRtl'] }"
                     />
                 </span>
             </div>
         </template>
 
-        <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
+        <Column
+            selectionMode="multiple"
+            headerStyle="width: 3rem"
+            :class="{ 'text-right': $store.getters['isRtl'] }"
+        ></Column>
 
         <Column
             field="name"
-            header="Name"
+            :header="$t('name')"
             :sortable="true"
             headerStyle="width:14%; min-width:10rem;"
+            :class="{ 'text-right': $store.getters['isRtl'] }"
         >
             <template #body="slotProps">
                 <span class="p-column-title">Name</span>
@@ -42,7 +49,12 @@
             </template>
         </Column>
 
-        <Column header="Image" headerStyle="width:14%; min-width:10rem;">
+        <Column
+            field="image"
+            :header="$t('image')"
+            headerStyle="width:14%; min-width:10rem;"
+            :class="{ 'text-right': $store.getters['isRtl'] }"
+        >
             <template #body="slotProps">
                 <span class="p-column-title">Image</span>
                 <img
@@ -56,9 +68,10 @@
 
         <Column
             field="email"
-            header="Email"
+            :header="$t('email')"
             :sortable="true"
-            headerStyle="width:14%; min-width:10rem;"
+            headerStyle="width:14%; min-width:14rem;"
+            :class="{ 'text-right': $store.getters['isRtl'] }"
         >
             <template #body="slotProps">
                 <span class="p-column-title">Email</span>
@@ -68,9 +81,10 @@
 
         <Column
             field="role"
-            header="Role"
+            :header="$t('role')"
             :sortable="true"
-            headerStyle="width:14%; min-width:10rem;"
+            headerStyle="width:14%; min-width:14rem;"
+            :class="{ 'text-right': $store.getters['isRtl'] }"
         >
             <template #body="slotProps">
                 <span class="p-column-title">Role</span>
@@ -80,18 +94,19 @@
 
         <Column
             field="action"
-            headerStyle="min-width:10rem;"
+            :header="$t('actions')"
+            headerStyle="min-width:10rem;display: flex; justify-content: center;"
             class="text-center"
         >
             <template #body="slotProps">
                 <Button
                     icon="pi pi-pencil"
-                    class="p-button-rounded p-button-success mr-2"
+                    class="p-button-rounded p-button-success mx-2"
                     @click="editUser(slotProps.data)"
                 />
                 <Button
                     icon="pi pi-trash"
-                    class="p-button-rounded p-button-warning mt-2"
+                    class="p-button-rounded p-button-warning mx-2"
                     @click="confirmDeleteUser(slotProps.data)"
                 />
             </template>
@@ -226,4 +241,18 @@ export default {
 
 <style scoped lang="scss">
 @import "../../../../assets/demo/styles/badges.scss";
+</style>
+
+<style lang="scss">
+.text-right {
+    .p-datatable {
+        .p-column-header-content {
+            display: flex;
+            gap: 0.5rem;
+        }
+    }
+    table {
+        direction: rtl;
+    }
+}
 </style>

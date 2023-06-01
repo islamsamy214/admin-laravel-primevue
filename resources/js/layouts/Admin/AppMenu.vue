@@ -1,14 +1,16 @@
 <script setup>
 import { ref } from "vue";
-
 import AppMenuItem from "./AppMenuItem.vue";
+import { useI18n } from "vue-i18n";
+
+const { t: $t } = useI18n();
 
 const model = ref([
     {
-        label: "Home",
+        label: $t('home'),
         items: [
             {
-                label: "Dashboard",
+                label: $t('dashboard'),
                 icon: "pi pi-fw pi-home",
                 to: "/admin/dashboard",
                 name: "admin.dashboard",
@@ -16,10 +18,10 @@ const model = ref([
         ],
     },
     {
-        label: "Collections",
+        label: $t('collections'),
         items: [
             {
-                label: "Users",
+                label: $t('users'),
                 icon: "pi pi-users",
                 to: "/admin/users",
                 name: "admin.users",
@@ -27,7 +29,7 @@ const model = ref([
         ],
     },
     {
-        label: "Pages",
+        label: $t('pages'),
         icon: "pi pi-fw pi-briefcase",
         to: "/pages",
         items: [
@@ -38,17 +40,17 @@ const model = ref([
             //     name: "landing",
             // },
             {
-                label: "Auth",
+                label: $t('auth'),
                 icon: "pi pi-fw pi-user",
                 items: [
                     {
-                        label: "Error",
+                        label: $t('error'),
                         icon: "pi pi-fw pi-times-circle",
                         to: "/error",
                         name: "error",
                     },
                     {
-                        label: "Access Denied",
+                        label: $t('accessDenied'),
                         icon: "pi pi-fw pi-lock",
                         to: "/access-denied",
                         name: "access-denied",
@@ -58,10 +60,10 @@ const model = ref([
         ],
     },
     {
-        label: "Prime Blocks",
+        label: $t('primeBlocks'),
         items: [
             {
-                label: "All Blocks",
+                label: $t('allBlocks'),
                 icon: "pi pi-fw pi-globe",
                 url: "https://www.primefaces.org/primeblocks-vue",
                 target: "_blank",
@@ -69,16 +71,16 @@ const model = ref([
         ],
     },
     {
-        label: "Utilities",
+        label: $t('utilities'),
         items: [
             {
-                label: "PrimeIcons",
+                label: $t('primeIcons'),
                 icon: "pi pi-fw pi-prime",
                 url: "https://www.primefaces.org/diamond/icons.xhtml",
                 target: "_blank",
             },
             {
-                label: "PrimeFlex",
+                label: $t('primeFlex'),
                 icon: "pi pi-fw pi-desktop",
                 url: "https://www.primefaces.org/primeflex/",
                 target: "_blank",
@@ -86,36 +88,36 @@ const model = ref([
         ],
     },
     {
-        label: "Hierarchy",
+        label: $t('support'),
         items: [
             {
-                label: "Submenu 1",
+                label: $t('submenu1'),
                 icon: "pi pi-fw pi-bookmark",
                 items: [
                     {
-                        label: "Submenu 1.1",
+                        label: $t('submenu11'),
                         icon: "pi pi-fw pi-bookmark",
                         items: [
                             {
-                                label: "Submenu 1.1.1",
+                                label: $t('submenu111'),
                                 icon: "pi pi-fw pi-bookmark",
                             },
                             {
-                                label: "Submenu 1.1.2",
+                                label: $t('submenu112'),
                                 icon: "pi pi-fw pi-bookmark",
                             },
                             {
-                                label: "Submenu 1.1.3",
+                                label: $t('submenu113'),
                                 icon: "pi pi-fw pi-bookmark",
                             },
                         ],
                     },
                     {
-                        label: "Submenu 1.2",
+                        label: $t('submenu12'),
                         icon: "pi pi-fw pi-bookmark",
                         items: [
                             {
-                                label: "Submenu 1.2.1",
+                                label: $t('submenu121'),
                                 icon: "pi pi-fw pi-bookmark",
                             },
                         ],
@@ -123,29 +125,29 @@ const model = ref([
                 ],
             },
             {
-                label: "Submenu 2",
+                label: $t('submenu2'),
                 icon: "pi pi-fw pi-bookmark",
                 items: [
                     {
-                        label: "Submenu 2.1",
+                        label: $t('submenu21'),
                         icon: "pi pi-fw pi-bookmark",
                         items: [
                             {
-                                label: "Submenu 2.1.1",
+                                label: $t('submenu211'),
                                 icon: "pi pi-fw pi-bookmark",
                             },
                             {
-                                label: "Submenu 2.1.2",
+                                label: $t('submenu212'),
                                 icon: "pi pi-fw pi-bookmark",
                             },
                         ],
                     },
                     {
-                        label: "Submenu 2.2",
+                        label: $t('submenu22'),
                         icon: "pi pi-fw pi-bookmark",
                         items: [
                             {
-                                label: "Submenu 2.2.1",
+                                label: $t('submenu221'),
                                 icon: "pi pi-fw pi-bookmark",
                             },
                         ],

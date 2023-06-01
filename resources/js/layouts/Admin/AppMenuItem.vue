@@ -83,6 +83,19 @@ const checkActiveRoute = (item) => {
 };
 </script>
 
+<script>
+import store from "../../store";
+export default {
+    computed: {
+        isRtl() {
+            return {
+                "flex-row-reverse": store.getters["isRtl"],
+            };
+        },
+    },
+};
+</script>
+
 <template>
     <li
         :class="{
@@ -100,7 +113,7 @@ const checkActiveRoute = (item) => {
             v-if="(!item.to || item.items) && item.visible !== false"
             :href="item.url"
             @click="itemClick($event, item, index)"
-            :class="item.class"
+            :class="[item.class, isRtl]"
             :target="item.target"
             tabindex="0"
         >
@@ -108,13 +121,18 @@ const checkActiveRoute = (item) => {
             <span class="layout-menuitem-text">{{ item.label }}</span>
             <i
                 class="pi pi-fw pi-angle-down layout-submenu-toggler"
+                :class="{ 'rtl-pi-down': $store.getters['isRtl'] }"
                 v-if="item.items"
             ></i>
         </a>
         <router-link
             v-if="item.to && !item.items && item.visible !== false"
             @click="itemClick($event, item, index)"
-            :class="[item.class, { 'active-route': checkActiveRoute(item) }]"
+            :class="[
+                item.class,
+                { 'active-route': checkActiveRoute(item) },
+                isRtl,
+            ]"
             tabindex="0"
             :to="{ name: item.name }"
         >
@@ -122,6 +140,7 @@ const checkActiveRoute = (item) => {
             <span class="layout-menuitem-text">{{ item.label }}</span>
             <i
                 class="pi pi-fw pi-angle-down layout-submenu-toggler"
+                :class="{ 'rtl-pi-down': $store.getters['isRtl'] }"
                 v-if="item.items"
             ></i>
         </router-link>
@@ -143,4 +162,16 @@ const checkActiveRoute = (item) => {
     </li>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.layout-menuitem-text {
+    margin-right: 0.5rem;
+}
+.rtl-pi-down {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+.layout-submenu {
+    margin-right: 1rem !important;
+    margin-left: 0 !important;
+}
+</style>

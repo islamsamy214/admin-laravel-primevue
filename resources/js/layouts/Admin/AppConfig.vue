@@ -68,7 +68,7 @@ const applyScale = () => {
         :transitionOptions="'.3s cubic-bezier(0, 0, 0.2, 1)'"
         class="layout-config-sidebar w-20rem"
     >
-        <h5>Scale</h5>
+        <h5>{{$t('scale')}}</h5>
         <div class="flex align-items-center">
             <Button
                 icon="pi pi-minus"
@@ -100,7 +100,7 @@ const applyScale = () => {
         </div>
 
         <template v-if="!simple">
-            <h5>Menu Type</h5>
+            <h5>{{$t('menuType')}}</h5>
             <div class="flex">
                 <div class="field-radiobutton flex-1">
                     <RadioButton
@@ -109,7 +109,7 @@ const applyScale = () => {
                         v-model="layoutConfig.menuMode.value"
                         inputId="mode1"
                     ></RadioButton>
-                    <label for="mode1">Static</label>
+                    <label for="mode1">{{$t('static')}}</label>
                 </div>
 
                 <div class="field-radiobutton flex-1">
@@ -119,13 +119,13 @@ const applyScale = () => {
                         v-model="layoutConfig.menuMode.value"
                         inputId="mode2"
                     ></RadioButton>
-                    <label for="mode2">Overlay</label>
+                    <label for="mode2">{{$t('overlay')}}</label>
                 </div>
             </div>
         </template>
 
         <template v-if="!simple">
-            <h5>Input Style</h5>
+            <h5>{{$t('inputStyle')}}</h5>
             <div class="flex">
                 <div class="field-radiobutton flex-1">
                     <RadioButton
@@ -134,7 +134,7 @@ const applyScale = () => {
                         v-model="layoutConfig.inputStyle.value"
                         inputId="outlined_input"
                     ></RadioButton>
-                    <label for="outlined_input">Outlined</label>
+                    <label for="outlined_input">{{$t('outlined')}}</label>
                 </div>
                 <div class="field-radiobutton flex-1">
                     <RadioButton
@@ -143,11 +143,11 @@ const applyScale = () => {
                         v-model="layoutConfig.inputStyle.value"
                         inputId="filled_input"
                     ></RadioButton>
-                    <label for="filled_input">Filled</label>
+                    <label for="filled_input">{{$t('filled')}}</label>
                 </div>
             </div>
 
-            <h5>Ripple Effect</h5>
+            <h5>{{$t('rippleEffect')}}</h5>
             <InputSwitch v-model="layoutConfig.ripple.value"></InputSwitch>
         </template>
 

@@ -2,7 +2,7 @@
     <Toast />
     <div class="col-12">
         <div class="card">
-            <h5 class="mb-5">Seo's</h5>
+            <h5 class="mb-5">{{ $t("Seos") }}</h5>
             <Loading v-if="loading" />
             <div v-else class="p-fluid formgrid grid">
                 <div class="field col-12 md:col-6">
@@ -24,8 +24,17 @@
                             id="title_ar"
                             v-model="title.ar"
                             :placeholder="$t('arabic')"
+                            :class="[{ 'text-right': $store.getters.isRtl }]"
                         />
-                        <label for="title_ar">{{ $t("title") }}</label>
+                        <label
+                            for="title_ar"
+                            :style="
+                                $store.getters.isRtl
+                                    ? 'right: 5px !important;'
+                                    : ''
+                            "
+                            >{{ $t("title") }}</label
+                        >
                     </span>
                 </div>
 
@@ -59,6 +68,7 @@
                             editorStyle="height: 320px"
                             :modules="$store.getters.getEditorOptions.modules"
                             :placeholder="$t('arabic')"
+                            :class="[{ 'right-to-left': $store.getters.isRtl }]"
                         />
                     </span>
                 </div>
@@ -71,7 +81,9 @@
                 </div>
 
                 <div class="field col-12 mt-4">
-                    <div class="flex justify-content-between">
+                    <div class="flex justify-content-between"
+                    :class="[{ 'flex-row-reverse': $store.getters.isRtl }]"
+                    >
                         <div>
                             <FileUpload
                                 mode="basic"
@@ -87,7 +99,7 @@
                         <div>
                             <Button
                                 icon="pi pi-check"
-                                label="Submit"
+                                :label="$t('submit')"
                                 class="p-mt-2 m-0"
                                 @click.prevent="updateSeo"
                                 :disabled="loading"
@@ -207,3 +219,13 @@ export default {
     }, // end of mounted
 };
 </script>
+
+<style lang="scss">
+.right-to-left {
+    .p-editor-content {
+        .ql-editor {
+            text-align: right;
+        }
+    }
+}
+</style>

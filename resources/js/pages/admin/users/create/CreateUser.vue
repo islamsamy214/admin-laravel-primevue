@@ -3,7 +3,7 @@
     <Dialog
         v-model:visible="newUserDialog"
         :style="{ width: '450px' }"
-        header="User Details"
+        :header="$t('newUser')"
         :modal="true"
         class="p-fluid"
     >
@@ -13,7 +13,7 @@
                     <Button
                         icon="pi pi-upload"
                         class="p-button-success w-full"
-                        label="Image"
+                        :label="$t('image')"
                         @click="$refs.image.click()"
                     />
                     <input
@@ -27,34 +27,52 @@
             </div>
         </div>
         <div class="field">
-            <label for="name">Name</label>
+            <label
+                for="name"
+                :class="[{ 'float-right': $store.getters.isRtl }]"
+                >{{ $t("name") }}</label
+            >
             <InputText
                 id="name"
                 v-model.trim="user.name"
                 required="true"
                 autofocus
                 type="text"
-                :class="{ 'p-invalid': submitted && !user.name }"
+                :class="[
+                    { 'p-invalid': submitted && !user.name },
+                    { 'text-right': $store.getters.isRtl },
+                ]"
             />
-            <small class="p-invalid" v-if="submitted && !user.name"
-                >Name is required.</small
-            >
+            <small class="p-invalid" v-if="submitted && !user.name">{{
+                $t("nameIsRequired")
+            }}</small>
         </div>
         <div class="field">
-            <label for="email">Email</label>
+            <label
+                for="email"
+                :class="[{ 'float-right': $store.getters.isRtl }]"
+                >{{ $t("email") }}</label
+            >
             <InputText
                 id="email"
                 v-model.trim="user.email"
                 required="true"
                 type="email"
-                :class="{ 'p-invalid': submitted && !user.email }"
+                :class="[
+                    { 'p-invalid': submitted && !user.email },
+                    { 'text-right': $store.getters.isRtl },
+                ]"
             />
-            <small class="p-invalid" v-if="submitted && !user.email"
-                >Email is required.</small
-            >
+            <small class="p-invalid" v-if="submitted && !user.email">{{
+                $t("emailIsRequired")
+            }}</small>
         </div>
         <div class="field">
-            <label class="mb-3">Role</label>
+            <label
+                class="mb-3"
+                :class="[{ 'float-right': $store.getters.isRtl }]"
+                >{{ $t("role") }}</label
+            >
             <div class="formgrid grid">
                 <div class="field-radiobutton col-6">
                     <RadioButton
@@ -63,7 +81,7 @@
                         value="admin"
                         v-model="user.role"
                     />
-                    <label for="role1">Admin</label>
+                    <label for="role1">{{ $t("admin") }}</label>
                 </div>
                 <div class="field-radiobutton col-6">
                     <RadioButton
@@ -72,67 +90,83 @@
                         value="user"
                         v-model="user.role"
                     />
-                    <label for="role2">User</label>
+                    <label for="role2">{{ $t("user") }}</label>
                 </div>
             </div>
         </div>
         <div class="field">
-            <label for="password">Password</label>
+            <label
+                for="password"
+                :class="[{ 'float-right': $store.getters.isRtl }]"
+                >{{ $t("password") }}</label
+            >
             <InputText
                 id="password"
                 v-model.trim="user.password"
                 required="true"
                 type="password"
-                :class="{
-                    'p-invalid':
-                        (submitted && !user.password) ||
-                        (submitted &&
-                            user.password_confirmation !== user.password),
-                }"
+                :class="[
+                    {
+                        'p-invalid':
+                            (submitted && !user.password) ||
+                            (submitted &&
+                                user.password_confirmation !== user.password),
+                    },
+                    { 'text-right': $store.getters.isRtl },
+                ]"
             />
-            <small class="p-invalid" v-if="submitted && !user.password"
-                >Password is required.</small
-            >
+            <small class="p-invalid" v-if="submitted && !user.password">{{
+                $t("passwordIsRequired")
+            }}</small>
         </div>
         <div class="field">
-            <label for="password_confirmation">Password Confirmation</label>
+            <label
+                for="password_confirmation"
+                :class="[{ 'float-right': $store.getters.isRtl }]"
+                >{{ $t("passwordConfirmation") }}</label
+            >
             <InputText
                 id="password_confirmation"
                 v-model.trim="user.password_confirmation"
                 required="true"
                 type="password"
-                :class="{
-                    'p-invalid':
-                        (submitted && !user.password) ||
-                        (submitted &&
-                            user.password_confirmation !== user.password),
-                }"
+                :class="[
+                    {
+                        'p-invalid':
+                            (submitted && !user.password) ||
+                            (submitted &&
+                                user.password_confirmation !== user.password),
+                    },
+                    { 'text-right': $store.getters.isRtl },
+                ]"
             />
             <small
                 class="p-invalid"
                 v-if="submitted && !user.password_confirmation"
-                >Password Confirmation is required.</small
+                >{{ $t("passwordConfirmationIsRequired") }}</small
             >
             <small
                 class="p-invalid"
                 v-if="submitted && user.password_confirmation !== user.password"
-                >Password Confirmation must match Password.</small
+                >{{ $t("passwordConfirmationMustMatchPassword") }}</small
             >
         </div>
 
         <template #footer>
-            <Button
-                label="Cancel"
-                icon="pi pi-times"
-                class="p-button-text"
-                @click="hideDialog"
-            />
-            <Button
-                label="Save"
-                icon="pi pi-check"
-                class="p-button-text"
-                @click="createUser"
-            />
+            <div :class="{ 'flex flex-row-reverse float-left': $store.getters.isRtl }">
+                <Button
+                    :label="$t('cancel')"
+                    icon="pi pi-times"
+                    class="p-button-text"
+                    @click="hideDialog"
+                />
+                <Button
+                    :label="$t('submit')"
+                    icon="pi pi-check"
+                    class="p-button-text"
+                    @click="createUser"
+                />
+            </div>
         </template>
     </Dialog>
 </template>

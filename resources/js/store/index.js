@@ -19,6 +19,7 @@ const store = createStore({
     state() {
         return {
             locale: getCookie("locale") || "en",
+            rtl: getCookie("locale") === "ar" ? true : false,
             // quill editor
             editorOptions: {
                 modules: {

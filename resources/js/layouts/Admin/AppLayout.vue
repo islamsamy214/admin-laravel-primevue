@@ -58,6 +58,27 @@ export default {
         });
 
         const containerClass = computed(() => {
+            if (store.getters["isRtl"]) {
+                return {
+                    "layout-theme-light":
+                        layoutConfig.darkTheme.value === "light",
+                    "layout-theme-dark":
+                        layoutConfig.darkTheme.value === "dark",
+                    "layout-overlay": layoutConfig.menuMode.value === "overlay",
+                    "layout-static": layoutConfig.menuMode.value === "static",
+                    "layout-static-inactive layout-static-inactive-rtl":
+                        layoutState.staticMenuDesktopInactive.value &&
+                        layoutConfig.menuMode.value === "static",
+                    "layout-overlay-active":
+                        layoutState.overlayMenuActive.value,
+                    "layout-mobile-active layout-mobile-active-rtl":
+                        layoutState.staticMenuMobileActive.value,
+                    "p-input-filled":
+                        layoutConfig.inputStyle.value === "filled",
+                    "p-ripple-disabled": !layoutConfig.ripple.value,
+                    "layout-sidebar-right": true,
+                };
+            }
             return {
                 "layout-theme-light": layoutConfig.darkTheme.value === "light",
                 "layout-theme-dark": layoutConfig.darkTheme.value === "dark",
@@ -121,7 +142,49 @@ export default {
     position: relative;
     border-top-left-radius: 0.375rem; /* 6px */
     border-top-right-radius: 0.375rem; /* 6px */
-    opacity: .7;
+    opacity: 0.7;
     z-index: 1;
+}
+.layout-sidebar-right {
+    .layout-sidebar {
+        right: 2rem;
+        left: auto;
+    }
+    .layout-main-container {
+        margin-left: auto !important;
+        margin-right: 23.8rem !important;
+        padding-left: 2rem;
+    }
+    @media screen and (max-width: 991px) {
+        .layout-main-container {
+            margin-right: 0 !important;
+        }
+    }
+}
+.layout-static-inactive-rtl {
+    .layout-sidebar {
+        transform: translateX(100%) !important;
+        right: 0 !important;
+        left: auto !important;
+    }
+    .layout-main-container {
+        margin-left: auto !important;
+        margin-right: 0 !important;
+    }
+}
+.layout-mobile-active-rtl {
+    .layout-sidebar {
+        transform: translateX(0) !important;
+        right: 0 !important;
+        left: auto !important;
+        border-top-left-radius: 6px !important;
+        border-bottom-left-radius: 6px !important;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+    .layout-main-container {
+        margin-left: auto !important;
+        margin-right: 0 !important;
+    }
 }
 </style>
