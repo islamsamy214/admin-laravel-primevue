@@ -11,10 +11,15 @@
                             type="text"
                             id="title_en"
                             v-model="title.en"
+                            required="true"
                             :placeholder="$t('english')"
+                            :class="{ 'p-invalid': submitted && !title.en }"
                         />
                         <label for="title_en">{{ $t("title") }}</label>
                     </span>
+                    <small class="p-invalid" v-if="submitted && !title.en">{{
+                        $t("titleInEnglishIsRequired")
+                    }}</small>
                 </div>
 
                 <div class="field col-12 md:col-6">
@@ -24,7 +29,10 @@
                             id="title_ar"
                             v-model="title.ar"
                             :placeholder="$t('arabic')"
-                            :class="[{ 'text-right': $store.getters.isRtl }]"
+                            :class="[
+                                { 'text-right': $store.getters.isRtl },
+                                { 'p-invalid': submitted && !title.ar },
+                            ]"
                         />
                         <label
                             for="title_ar"
@@ -36,6 +44,9 @@
                             >{{ $t("title") }}</label
                         >
                     </span>
+                    <small class="p-invalid" v-if="submitted && !title.ar">{{
+                        $t("titleInArabicIsRequired")
+                    }}</small>
                 </div>
 
                 <div class="field col-12 md:col-6">
@@ -49,9 +60,19 @@
                             id="description_en"
                             v-model="description.en"
                             editorStyle="height: 320px"
+                            aria-required="true"
                             :modules="$store.getters.getEditorOptions.modules"
+                            :class="{
+                                'border rounded-lg border-red-500':
+                                    submitted && !description.en,
+                            }"
                             :placeholder="$t('english')"
                         />
+                        <small
+                            class="p-invalid"
+                            v-if="submitted && !description.en"
+                            >{{ $t("descriptionInEnglishIsRequired") }}</small
+                        >
                     </span>
                 </div>
 
@@ -66,30 +87,57 @@
                             id="description_ar"
                             v-model="description.ar"
                             editorStyle="height: 320px"
+                            aria-required="true"
                             :modules="$store.getters.getEditorOptions.modules"
                             :placeholder="$t('arabic')"
-                            :class="[{ 'right-to-left': $store.getters.isRtl }]"
+                            :class="[
+                                { 'right-to-left': $store.getters.isRtl },
+                                {
+                                    'border rounded-lg border-red-500':
+                                        submitted && !description.ar,
+                                },
+                            ]"
                         />
+                        <small
+                            class="p-invalid"
+                            v-if="submitted && !description.ar"
+                            >{{ $t("descriptionInArabicIsRequired") }}</small
+                        >
                     </span>
                 </div>
 
                 <div class="field col-12 mt-4">
                     <span class="p-float-label">
-                        <Chips inputId="chips" v-model="keywords"></Chips>
+                        <Chips
+                            inputId="chips"
+                            v-model="keywords"
+                            :class="[
+                                {
+                                    'p-invalid':
+                                        submitted && keywords.length === 0,
+                                },
+                            ]"
+                        ></Chips>
                         <label for="chips">Chips</label>
                     </span>
+                    <small
+                        class="p-invalid"
+                        v-if="submitted && keywords.length === 0"
+                        >{{ $t("keywordsAreRequired") }}</small
+                    >
                 </div>
 
                 <div class="field col-12 mt-4">
-                    <div class="flex justify-content-between"
-                    :class="[{ 'flex-row-reverse': $store.getters.isRtl }]"
+                    <div
+                        class="flex justify-content-between"
+                        :class="[{ 'flex-row-reverse': $store.getters.isRtl }]"
                     >
                         <div>
                             <FileUpload
                                 mode="basic"
                                 accept="image/*"
                                 customUpload
-                                :maxFileSize="1000000"
+                                :maxFileSize="2048000"
                                 :chooseLabel="$t('chooseImage')"
                                 @change="uploadImage"
                                 ref="fileUploader"
@@ -129,6 +177,7 @@ export default {
             keywords: [],
             image: null,
             loading: false,
+            submitted: false,
         };
     }, // end of data
 
@@ -173,40 +222,51 @@ export default {
         }, // end of onUpload
 
         updateSeo() {
-            this.loading = true;
-            const formData = new FormData();
-            formData.append("title", JSON.stringify(this.title));
-            formData.append("description", JSON.stringify(this.description));
-            formData.append("keywords", this.formatKeywords());
-            if (this.image) formData.append("image", this.image);
-            formData.append("_method", "PUT");
-            axios
-                .post("/api/admin/seos/1", formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                })
-                .then((response) => {
-                    this.toast.add({
-                        severity: "success",
-                        summary: "Success",
-                        detail: response.data.message,
-                        life: 3000,
-                    });
-                })
-                .catch((error) => {
-                    if (error.response) {
+            this.submitted = true;
+            if (
+                this.title.en &&
+                this.description.en &&
+                this.keywords.length > 0
+            ) {
+                this.loading = true;
+                const formData = new FormData();
+                formData.append("title", JSON.stringify(this.title));
+                formData.append(
+                    "description",
+                    JSON.stringify(this.description)
+                );
+                formData.append("keywords", this.formatKeywords());
+                if (this.image) formData.append("image", this.image);
+                formData.append("_method", "PUT");
+                axios
+                    .post("/api/admin/seos/1", formData, {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                    })
+                    .then((response) => {
                         this.toast.add({
-                            severity: "error",
-                            summary: "Error",
-                            detail: error.response.data.message,
-                            life: 15000,
+                            severity: "success",
+                            summary: "Success",
+                            detail: response.data.message,
+                            life: 3000,
                         });
-                    }
-                })
-                .then(() => {
-                    this.loading = false;
-                });
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            this.toast.add({
+                                severity: "error",
+                                summary: "Error",
+                                detail: error.response.data.message,
+                                life: 15000,
+                            });
+                        }
+                    })
+                    .then(() => {
+                        this.loading = false;
+                        this.submitted = false;
+                    });
+            }
         }, // end of updateSeo
     }, // end of methods
 

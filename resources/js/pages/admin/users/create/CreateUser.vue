@@ -10,18 +10,15 @@
         <div class="field text-center">
             <div class="p-inputgroup">
                 <div class="custom-file">
-                    <Button
-                        icon="pi pi-upload"
-                        class="p-button-success w-full"
-                        :label="$t('image')"
-                        @click="$refs.image.click()"
-                    />
-                    <input
-                        type="file"
-                        ref="image"
+                    <FileUpload
+                        mode="basic"
                         accept="image/*"
+                        customUpload
+                        :maxFileSize="2048000"
+                        :chooseLabel="$t('chooseImage')"
                         @change="uploadImage"
-                        hidden
+                        ref="fileUploader"
+                        class="m-0"
                     />
                 </div>
             </div>
@@ -153,7 +150,11 @@
         </div>
 
         <template #footer>
-            <div :class="{ 'flex flex-row-reverse float-left': $store.getters.isRtl }">
+            <div
+                :class="{
+                    'flex flex-row-reverse float-left': $store.getters.isRtl,
+                }"
+            >
                 <Button
                     :label="$t('cancel')"
                     icon="pi pi-times"
@@ -197,9 +198,9 @@ export default {
     },
 
     methods: {
-        uploadImage(event) {
-            if (!event.target.files[0]) return;
-            this.user.image = event.target.files[0];
+        uploadImage() {
+            if (!this.$refs.fileUploader.files[0]) return;
+            this.user.image = this.$refs.fileUploader.files[0];
         }, //end of uploadImage
         createUser() {
             this.submitted = true;

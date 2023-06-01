@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { useLayout } from "./composables/layout";
 import { useRouter } from "vue-router";
+import store from "../../store";
 
 const { layoutConfig, onMenuToggle } = useLayout();
 
@@ -29,7 +30,14 @@ const toggleProfileMenu = (event) => {
     profileMenu.value.toggle(event);
 };
 const logout = () => {
-    
+    axios
+        .post("/api/admin/logout", store.getters["adminAuth/user"].id)
+        .then((response) => {
+            if (response.status == 200) {
+                store.commit("adminAuth/logout");
+                router.push({ name: "admin.login" });
+            }
+        });
 };
 const onSettingsClick = () => {
     topbarMenuActive.value = false;

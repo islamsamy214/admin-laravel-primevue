@@ -135,10 +135,9 @@ export default {
                     },
                 })
                 .then((response) => {
-                    // this.currentUsers = this.currentUsers.filter(
-                    //     (val) => !this.selectedUsers.includes(val)
-                    // );
-                    this.fill();
+                    this.currentUsers = this.currentUsers.filter(
+                        (val) => !this.selectedUsers.includes(val)
+                    );
                     this.selectedUsers = null;
                     this.toast.add({
                         severity: "success",

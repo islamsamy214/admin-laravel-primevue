@@ -70,6 +70,11 @@ export default {
         chooseImage: "Choose Image",
         submit: "Submit",
         cancel: "Cancel",
+        titleInEnglishIsRequired: "Title in english is required",
+        titleInArabicIsRequired: "Title in arabic is required",
+        descriptionInEnglishIsRequired: "Description in english is required",
+        descriptionInArabicIsRequired: "Description in arabic is required",
+        keywordsAreRequired: "Keywords are required",
 
         manage: "Manage",
         search: "Search...",
@@ -158,6 +163,10 @@ export default {
         chooseImage: "إختر صورة",
         submit: "إرسال",
         cancel: "إلغاء",
+        titleInEnglishIsRequired: "العنوان بالإنجليزية مطلوب",
+        titleInArabicIsRequired: "العنوان بالعربية مطلوب",
+        descriptionInEnglishIsRequired: "الوصف بالإنجليزية مطلوب",
+        descriptionInArabicIsRequired: "الوصف بالعربية مطلوب",
 
         manage: "إدارة",
         search: "بحث...",
