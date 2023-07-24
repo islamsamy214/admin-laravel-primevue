@@ -1,31 +1,37 @@
 version: '3'
 services:
-    laravel.test:
+    laravel-app:
+        container_name: 'laravel-app'
         build:
             context: .
             dockerfile: Dockerfile
             args:
-                WWWGROUP: '${WWWGROUP}'
+                WWWGROUP: 1000
         image: sail-8.2/app
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
-            - '6314:80'
+            - '8003:80'
         environment:
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
             XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
             XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+        mem_limit: 2g
+        restart: unless-stopped
+        cpus: 1
         volumes:
             - '.:/var/www/html'
         networks:
-            - sail
+            - laravel-app-net
         depends_on:
-            - mysql
-    mysql:
+            - laravel-appDB
+
+    laravel-appDB:
+        container_name: 'laravel-appDB'
         image: 'mysql/mysql-server:8.0'
         ports:
-            - '6315:3306'
+            - '3311:3306'
         environment:
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ROOT_HOST: '%'
@@ -33,11 +39,12 @@ services:
             MYSQL_USER: '${DB_USERNAME}'
             MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        restart: unless-stopped
         volumes:
-            - 'sail-mysql:/var/lib/mysql'
+            - 'laravel-app-mysql:/var/lib/mysql'
             - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
         networks:
-            - sail
+            - laravel-app-net
         healthcheck:
             test:
                 - CMD
@@ -47,8 +54,8 @@ services:
             retries: 3
             timeout: 5s
 networks:
-    sail:
+    laravel-app-net:
         driver: bridge
 volumes:
-    sail-mysql:
+    laravel-app-mysql:
         driver: local
