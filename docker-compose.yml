@@ -1,34 +1,37 @@
 version: '3'
 services:
-    laravel-app:
-        container_name: 'laravel-app'
+    laravel:
+        container_name: 'laravel'
         build:
             context: .
             dockerfile: Dockerfile
             args:
                 WWWGROUP: 1000
         image: sail-8.2/app
+        deploy:
+            resources:
+                limits:
+                    cpus: "1"
+                    memory: 2048M
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
             - '8003:80'
         environment:
-            WWWUSER: '${WWWUSER}'
+            WWWUSER: 1000
             LARAVEL_SAIL: 1
             XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
             XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
-        mem_limit: 2g
         restart: unless-stopped
-        cpus: 1
         volumes:
             - '.:/var/www/html'
         networks:
-            - laravel-app-net
+            - laravel-net
         depends_on:
-            - laravel-appDB
+            - laravelDB
 
-    laravel-appDB:
-        container_name: 'laravel-appDB'
+    laravelDB:
+        container_name: 'laravelDB'
         image: 'mysql/mysql-server:8.0'
         ports:
             - '3311:3306'
@@ -41,10 +44,9 @@ services:
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         restart: unless-stopped
         volumes:
-            - 'laravel-app-mysql:/var/lib/mysql'
-            - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
+            - 'laravel-mysql:/var/lib/mysql'
         networks:
-            - laravel-app-net
+            - laravel-net
         healthcheck:
             test:
                 - CMD
@@ -54,8 +56,8 @@ services:
             retries: 3
             timeout: 5s
 networks:
-    laravel-app-net:
+    laravel-net:
         driver: bridge
 volumes:
-    laravel-app-mysql:
+    laravel-mysql:
         driver: local
