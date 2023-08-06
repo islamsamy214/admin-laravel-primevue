@@ -18,7 +18,7 @@ trait GeneralTrait
         $response = [
             'status' => true,
             'message' => $message,
-            'url' => url('/') . '/',
+            'url' => env('APP_URL') . '/',
             'data' => $data,
             'seo' => $seo,
         ];
@@ -45,7 +45,7 @@ trait GeneralTrait
         }
     }
 
-    public function validationApiTrait($request, $rules, $messages = null)
+    public function apiValidationTrait($request, $rules, $messages = null)
     {
         if ($messages) {
             $validator = Validator::make($request, $rules, $messages);

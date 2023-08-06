@@ -6,7 +6,7 @@ namespace App\Http\Traits;
 
 trait SeoTrait
 {
-    public function seo($title, $url)
+    public function seo($title, $url, $description = 'Description', $keywords = 'keywords')
     {
         /*$seo = Seo::first();
         $data = [
@@ -17,11 +17,11 @@ trait SeoTrait
             'url' => $url,
         ];*/
         $data = [
-            'title' => $title . ' | ' . 'AGS',
-            'description' => 'Description',
-            'keywords' => 'keywords',
-            'image' => asset('images/default.jpg'),
-            'url' => $url,
+            'title' => $title . ' | ' . env('APP_NAME'),
+            'description' => $description,
+            'keywords' => $keywords,
+            'image' => asset('Logo.svg'),
+            'url' => env('APP_URL') . '/' . $url,
         ];
         return $data;
     }
