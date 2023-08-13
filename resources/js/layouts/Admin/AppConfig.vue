@@ -51,6 +51,22 @@ const incrementScale = () => {
 const applyScale = () => {
     document.documentElement.style.fontSize = layoutConfig.scale.value + "px";
 };
+
+const cookie = document.cookie
+    .split(";")
+    .map((cookie) => cookie.split("="))
+    .reduce(
+        (accumulator, [key, value]) => ({
+            ...accumulator,
+            [key.trim()]: decodeURIComponent(value),
+        }),
+        {}
+    );
+
+if (cookie.theme) {
+    const mode = cookie.islamsamy214_temp_darkTheme ? "dark" : "light";
+    onChangeTheme(cookie.islamsamy214_temp_theme, mode);
+}
 </script>
 
 <template>
