@@ -18,7 +18,6 @@ const web = [
         name: "home",
         path: "home",
         component: HomePage,
-        children: web
     }
 ];
 

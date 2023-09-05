@@ -6,7 +6,7 @@ import web from "./web";
 import admin from "./admin";
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         // {
         //     name: "web",
@@ -16,11 +16,17 @@ const router = createRouter({
         //     redirect: { name: "web.home" },
         // },
         {
+            name: "web",
+            path: "/",
+            // component: WebLayout,
+            children: web,
+            redirect: { name: "admin.dashboard" },
+        },
+        {
             name: "admin",
             path: "/admin",
             component: AppLayout,
             children: admin,
-            // redirect: { name: "admin.dashboard" }
             redirect: { name: "admin.dashboard" },
         },
         {
