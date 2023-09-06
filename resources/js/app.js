@@ -1,4 +1,4 @@
-require("./bootstrap");
+import "./bootstrap.js";
 
 import { createApp } from "vue";
 import App from "./App.vue";
@@ -127,6 +127,7 @@ app.use(router);
 app.use(store);
 // locale setup
 const i18n = createI18n({
+    legacy: false,
     locale: store.state.locale,
     messages: messages,
 });

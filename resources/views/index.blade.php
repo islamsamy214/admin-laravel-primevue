@@ -20,11 +20,13 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link id="theme-css" rel="stylesheet" type="text/css"
         href="{{ asset('assets/themes/lara-light-indigo/theme.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
 </head>
 
 <body>
     <div id="app"></div>
-    <script type="module" src="{{ mix('js/app.js') }}"></script>
+    {{-- <script type="module" src="{{ mix('js/app.js') }}"></script> --}}
 </body>
 
 </html>
