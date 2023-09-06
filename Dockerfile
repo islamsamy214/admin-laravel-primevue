@@ -43,7 +43,8 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && apt install -y php8.2-imagick \
     && apt install -y php8.2-json \
-    && apt install -y php8.2-common 
+    && apt install -y php8.2-common \
+    && apt install -y php8.2-sqlite3 
 
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.2
 
