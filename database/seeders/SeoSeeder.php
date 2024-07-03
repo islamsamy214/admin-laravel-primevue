@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Seo;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Seo;
 
 class SeoSeeder extends Seeder
 {

@@ -1,4 +1,4 @@
-import HomePage from "./../pages/home/HomePage.vue";
+import HomePage from "../pages/home/HomePage.vue";
 
 const web = [
     ////////////////////////////////// web routes ////////////////////////////
