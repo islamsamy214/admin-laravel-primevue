@@ -6,9 +6,12 @@ use App\Http\Controllers\Admin\AuthController;
 Route::post('login', [AuthController::class, 'login'])
     ->name('login');
 
-Route::post('refresh', [AuthController::class, 'refresh'])
-    ->name('refresh');
+Route::group(['middleware' => ['admin:sanctum']], function () {
 
-Route::post('logout', [AuthController::class, 'logout'])
-    ->name('logout');
-    
+    Route::post('refresh', [AuthController::class, 'refresh'])
+        ->name('refresh');
+
+    Route::post('logout', [AuthController::class, 'logout'])
+        ->name('logout');
+
+}); //end of middleware
