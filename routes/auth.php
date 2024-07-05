@@ -9,10 +9,13 @@ Route::post('register', [AuthController::class, 'register'])
 Route::post('login', [AuthController::class, 'login'])
     ->name('login');
 
-Route::post('refresh', [AuthController::class, 'refresh'])
-    ->name('refresh')
-    ->middleware(['api', 'auth:sanctum']);
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('user', [AuthController::class, 'user'])
+        ->name('user');
 
-Route::post('logout', [AuthController::class, 'logout'])
-    ->name('logout')
-    ->middleware(['api', 'auth:sanctum']);
+    Route::post('refresh', [AuthController::class, 'refresh'])
+        ->name('refresh');
+
+    Route::post('logout', [AuthController::class, 'logout'])
+        ->name('logout');
+}); //end of middleware
