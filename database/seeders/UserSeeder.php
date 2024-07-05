@@ -3,9 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Faker\Factory;
 use App\Models\User;
-
 
 class UserSeeder extends Seeder
 {
