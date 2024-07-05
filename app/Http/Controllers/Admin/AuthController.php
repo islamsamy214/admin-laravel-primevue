@@ -10,6 +10,20 @@ use App\Http\Requests\Admin\Auth\LoginRequest;
 class AuthController extends Controller
 {
     /**
+     * Get the authenticated user.
+     * 
+     * @param  Request  $request
+     * @return JsonResponse
+     */
+    public function user(Request $request): JsonResponse
+    {
+        return response()->json([
+            'status' => 'success',
+            'user' => auth('sanctum')->user(),
+        ]);
+    }
+
+    /**
      * Log the user in.
      *
      * @param  Request  $request
@@ -43,7 +57,7 @@ class AuthController extends Controller
      */
     public function refresh(Request $request): JsonResponse
     {
-        $request->user()->tokens()->delete();
+        auth('sanctum')->user()->tokens()->delete();
         $token = $request->user()->createToken('auth_token', ['*'], now()->addWeek());
         return response()->json([
             'status' => 'success',
@@ -62,7 +76,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        $request->user()->tokens()->delete();
+        auth('sanctum')->user()->tokens()->delete();
         return response()->json([
             'status' => 'success',
             'message' => 'User logged out successfully',

@@ -15,8 +15,8 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = auth()->user();
-        
+        $user = auth('sanctum')->user();
+
         if (!$user || !in_array($user->role, ['admin', 'super_admin'])) {
             return response()->json(['message' => 'You are not authorized to access this route'], 401);
         }
