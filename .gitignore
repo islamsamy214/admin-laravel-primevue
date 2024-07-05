@@ -1,7 +1,5 @@
 /.phpunit.cache
 /node_modules
-/public/images/**
-/public/images/**/**
 /public/build
 /public/hot
 /public/storage
@@ -10,6 +8,7 @@
 .env
 .env.backup
 .env.production
+.phpactor.json
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
@@ -19,9 +18,3 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-/public/node_modules/images/**
-composer.lock
-composer.lock
-/public/js/app.js
-/public/js/app.js.map
-/public/js/app.js.LICENSE.txt
