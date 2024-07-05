@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+import WebLayout from "../layouts/Web/WebLayout.vue";
 import AppLayout from "../layouts/Admin/AppLayout.vue";
 
 import web from "./web";
@@ -29,32 +30,30 @@ const router = createRouter({
             children: admin,
             redirect: { name: "admin.dashboard" },
         },
-        {
-            name: "notfound",
-            path: "/:notfound(.*)",
-            component: () => import("../pages/admin/NotFound.vue"),
-        },
-        ////////////////////////////////// static dashboard routes ////////////////////////////
-        {
-            path: "/landing",
-            name: "landing",
-            component: () => import("../pages/admin/Landing.vue"),
-        },
+        // auth
         {
             path: "/admin/login",
-            name: "login",
+            name: "admin.login",
             component: () => import("../pages/admin/auth/Login.vue"),
         },
+        // access denied
         {
             path: "/access-denied",
-            name: "accessDenied",
+            name: "access-denied",
             component: () => import("../pages/admin/auth/Access.vue"),
         },
+        // error
         {
             path: "/error",
             name: "error",
             component: () => import("../pages/admin/auth/Error.vue"),
         },
+        //not founded pages
+        {
+            name: "notfound",
+            path: "/:notfound(.*)",
+            component: () => import("../pages/NotFound.vue"),
+        },        
     ],
 });
 

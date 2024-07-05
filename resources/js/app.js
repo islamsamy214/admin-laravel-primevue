@@ -116,7 +116,8 @@ import BlockViewer from "./components/BlockViewer.vue";
 
 import "./assets/styles.js";
 // custom components
-
+import PageErrors from "./components/PageErrors.vue";
+import Loading from "./components/Loading.vue";
 // import "./assets/styles.scss"
 
 const app = createApp(App);
@@ -126,6 +127,7 @@ app.use(router);
 app.use(store);
 // locale setup
 const i18n = createI18n({
+    legacy: false,
     locale: store.state.locale,
     messages: messages,
 });
@@ -237,6 +239,7 @@ app.component("TreeTable", TreeTable);
 app.component("TriStateCheckbox", TriStateCheckbox);
 app.component("VirtualScroller", VirtualScroller);
 // custom components
-
+app.component("PageErrors", PageErrors);
+app.component("Loading", Loading);
 // mount app
 app.mount("#app");

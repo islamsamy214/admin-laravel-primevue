@@ -5,6 +5,7 @@ export default {
     }, //end of logging in
 
     logout(state) {
+        localStorage.removeItem("adminToken");
         state.isLoggedIn = false;
         state.user = {};
     }, //end of logging out

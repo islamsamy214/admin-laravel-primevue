@@ -19,6 +19,24 @@ const store = createStore({
     state() {
         return {
             locale: getCookie("locale") || "en",
+            rtl: getCookie("locale") === "ar" ? true : false,
+            // quill editor
+            editorOptions: {
+                modules: {
+                    toolbar: [
+                        ["bold", "italic", "underline", "strike"], // toggled buttons
+                        ["blockquote", "code-block"],
+                        [{ list: "ordered" }, { list: "bullet" }],
+                        [{ script: "sub" }, { script: "super" }], // superscript/subscript
+                        [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+                        [{ direction: "rtl" }], // text direction
+                        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                        [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+                        [{ align: [] }],
+                    ],
+                },
+                placeholder: "Enter text...",
+            },
         };
     },
     modules: {

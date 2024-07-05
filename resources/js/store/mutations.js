@@ -12,5 +12,11 @@ export default {
                 payload.locale
             };expires=${now.toUTCString()};path=/`;
         }
+
+        this.commit("setRtl", { rtl: payload.locale === "ar" ? true : false });
+        location.reload();
     }, //end of setting locale
+    setRtl(state, payload) {
+        state.rtl = payload.rtl;
+    },
 };
