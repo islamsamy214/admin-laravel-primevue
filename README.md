@@ -52,13 +52,7 @@ use this these credentials for login email: `super_admin@app.com` pass: `1234567
 For development, you can run:
 
 ```
-npm run watch
-```
-
-or
-
-```
-npm run hot
+npm run dev
 ```
 
 ## Donation
